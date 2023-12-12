@@ -1,47 +1,47 @@
 ---
 - name: 'Enable and unmask sshd.socket'
-  systemd:
+  ansible.builtin.systemd:
     name: ssh.socket
     state: started
-    enabled: yes
-    masked: no
+    enabled: true
+    masked: false
 
 - name: 'Enable and unmask sshd.service'
-  systemd:
+  ansible.builtin.systemd:
     name: ssh.service
     state: started
-    enabled: yes
-    masked: no
+    enabled: true
+    masked: false
 
-- name: 'mkdir ssh.socket.d'
-  file:
+- name: 'Make dir ssh.socket.d'
+  ansible.builtin.file:
     path: /etc/systemd/system/ssh.socket.d
     state: directory
     owner: root
     group: root
     mode: '0755'
-    follow: no
+    follow: false
 
 - name: 'Create ssh.socket.d/listen.conf'
-  template:
+  ansible.builtin.template:
     src: templates/listen_conf.j2
     dest: /etc/systemd/system/ssh.socket.d/listen.conf
     owner: root
     group: root
     mode: '0644'
-    force: yes
-    backup: yes
+    force: true
+    backup: true
   notify: 'Restart ssh.socket'
 
 - name: Update sshd_config
-  template:
+  ansible.builtin.template:
     src: templates/sshd_config.j2
     dest: /etc/ssh/sshd_config
     owner: root
     group: root
     mode: '0644'
-    force: yes
-    backup: yes
+    force: true
+    backup: true
     validate: "sshd -t -f %s"
   notify: 'Restart ssh.socket'
 
@@ -61,15 +61,16 @@
   register: moduli
 
 - name: Get min moduli size
-  set_fact:
+  ansible.builtin.set_fact:
     moduli_min: "{{ moduli.list | map(attribute='size') | sort | first }}"
-    cacheable: no
+    cacheable: false
 
 - name: Deactivate short moduli
-  shell: > 
-    awk '$5 >= {{ sshd_moduli_min }}' {{ sshd_moduli_file }} 
-    > {{ sshd_moduli_file }}.tmp 
+  ansible.builtin.shell: >
+    awk '$5 >= {{ sshd_moduli_min }}' {{ sshd_moduli_file }}
+    > {{ sshd_moduli_file }}.tmp
     && mv {{ sshd_moduli_file }}.tmp {{ sshd_moduli_file }}
   when: moduli_min | int < sshd_moduli_min
+  changed_when: moduli_min | int < sshd_moduli_min
   notify: 'Restart ssh.socket'
 ...

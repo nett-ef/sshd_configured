@@ -1,4 +1,4 @@
-sshd-configured
+sshd_configured
 ===============
 
 Applies basic configuration and hardening to OpenSSH.
@@ -33,7 +33,7 @@ Example Playbook
     - hosts: all
       become: yes
       roles:
-      - { role: nett_ef.sshd_configured, tags: sshd, sshd_port: 2200 }
+      - { role: 'nett-ef.sshd_configured', tags: sshd, sshd_port: 2200 }
 
 Platforms
 ---------
