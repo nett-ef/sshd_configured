@@ -1,12 +1,12 @@
 ---
-- name: 'Enable and unmask sshd.socket'
+- name: 'Enable and unmask ssh.socket'
   ansible.builtin.systemd:
     name: ssh.socket
     state: started
     enabled: true
     masked: false
 
-- name: 'Enable and unmask sshd.service'
+- name: 'Enable and unmask ssh.service'
   ansible.builtin.systemd:
     name: ssh.service
     state: started
@@ -33,7 +33,7 @@
     backup: true
   notify: 'Restart ssh.socket'
 
-- name: Update sshd_config
+- name: 'Update sshd_config'
   ansible.builtin.template:
     src: templates/sshd_config.j2
     dest: /etc/ssh/sshd_config
@@ -45,7 +45,7 @@
     validate: "sshd -t -f %s"
   notify: 'Restart ssh.socket'
 
-- name: Read moduli file
+- name: 'Read moduli file'
   community.general.read_csv:
     path: "{{ sshd_moduli_file }}"
     dialect: unix
@@ -60,12 +60,12 @@
       - modulus
   register: moduli
 
-- name: Get min moduli size
+- name: 'Get min moduli size'
   ansible.builtin.set_fact:
     moduli_min: "{{ moduli.list | map(attribute='size') | sort | first }}"
     cacheable: false
 
-- name: Deactivate short moduli
+- name: 'Deactivate short moduli'
   ansible.builtin.shell: >
     awk '$5 >= {{ sshd_moduli_min }}' {{ sshd_moduli_file }}
     > {{ sshd_moduli_file }}.tmp

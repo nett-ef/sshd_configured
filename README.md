@@ -6,11 +6,10 @@ Applies basic configuration and hardening to OpenSSH.
 Role Variables
 --------------
 
-defaults/main.yaml:
+defaults/main/common.yaml:
 
-    sshd_port: 2211
+    sshd_port: 22
     sshd_address_family: "inet"
-    sshd_listen_address: "0.0.0.0"
     sshd_login_grace_time: "30s"
     sshd_max_auth_tries: 3
     sshd_max_sessions: 10
@@ -31,7 +30,7 @@ Example Playbook
 ----------------
 
     - hosts: all
-      become: yes
+      become: true
       roles:
       - { role: 'nett-ef.sshd_configured', tags: sshd, sshd_port: 2200 }
 
@@ -40,10 +39,9 @@ Platforms
 
     - name: Ubuntu
       versions:
-        - kinetic
-        - lunar
+        - jammy
         - mantic
- 
+
 Requirements
 ------------
 

@@ -1,5 +1,13 @@
 ---
-- name: Run Ubuntu tasks
-  ansible.builtin.import_tasks: ubuntu.yaml
-  when: ansible_facts['distribution'] == 'Ubuntu'
+- name: 'Run Ubuntu Jammy tasks'
+  ansible.builtin.import_tasks: jammy.yaml
+  when:
+    - ansible_facts['distribution'] == 'Ubuntu'
+    - ansible_facts['distribution_release'] == 'jammy'
+
+- name: 'Run Ubuntu Mantic tasks'
+  ansible.builtin.import_tasks: mantic.yaml
+  when:
+    - ansible_facts['distribution'] == 'Ubuntu'
+    - ansible_facts['distribution_release'] == 'mantic'
 ...

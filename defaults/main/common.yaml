@@ -1,8 +1,5 @@
 ---
-sshd_port: 2211
-# Commented-out as deprecated,
-# see: https://discourse.ubuntu.com/t/sshd-now-uses-socket-based-activation-ubuntu-22-10-and-later/30189
-# sshd_listen_address: "0.0.0.0"
+sshd_port: 22
 sshd_address_family: "inet"
 sshd_login_grace_time: "30s"
 sshd_max_auth_tries: 3

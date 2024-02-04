@@ -1,19 +1,19 @@
 galaxy_info:
-  author: Fedor Saveliev (https://github.com/nett-ef)
-  description: Applies basic configuration and hardening to OpenSSH
-  license: MIT
-  min_ansible_version: '2.1'
+  author: 'Fedor Saveliev (https://github.com/nett-ef)'
+  description: 'Applies basic configuration and hardening to OpenSSH'
+  license: 'MIT'
+  min_ansible_version: '2.16'
 
   platforms:
     - name: Ubuntu
       versions:
-        - kinetic
-        - lunar
+        - jammy
         - mantic
 
   galaxy_tags:
     - sshd
+    - configuration
     - hardening
     - ubuntu
 
-dependencies: []
+dependencies: [ ]

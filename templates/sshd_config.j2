@@ -1,8 +1,7 @@
-# The arguments moved to /etc/systemd/system/ssh.socket.d/listen.conf
-# see: https://discourse.ubuntu.com/t/sshd-now-uses-socket-based-activation-ubuntu-22-10-and-later/30189
-#Port {{ sshd_port }}
-#ListenAddress sshd_listen_address
-
+{% if ansible_facts['distribution_release'] == 'jammy' %}
+Port {{ sshd_port }}
+ListenAddress {{ sshd_listen_address }}
+{% endif %}
 AddressFamily {{ sshd_address_family }}
 SyslogFacility {{ sshd_log_facility }}
 LogLevel {{ sshd_log_level }}

@@ -1,0 +1,5 @@
+---
+# ListenAddress has changed in newer releases,
+# see: https://discourse.ubuntu.com/t/sshd-now-uses-socket-based-activation-ubuntu-22-10-and-later/30189
+sshd_listen_address: "0.0.0.0"
+...
